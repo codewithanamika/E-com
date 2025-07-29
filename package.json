@@ -21,6 +21,7 @@
     "firebase-functions-test": "^3.1.0"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.11",
     "serve": "^14.2.4",
     "vite": "^5.4.19"
   }
