@@ -3,7 +3,7 @@ services:
     name: ecommerce-frontend
     env: node
     buildCommand: npm install && npm run build
-    startCommand: npm run start
+    startCommand: npm run preview
     staticPublishPath: dist
     region: oregon
     branch: main
