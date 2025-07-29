@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: ecommerce-frontend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    staticPublishPath: dist
+    region: oregon
+    branch: main
