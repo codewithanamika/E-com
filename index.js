@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Import function triggers from their respective submodules:
  *
@@ -30,3 +31,45 @@ setGlobalOptions({ maxInstances: 10 });
 //   logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
+=======
+import { onRequest } from 'firebase-functions/v2/https';
+import { initializeApp } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
+import nodemailer from 'nodemailer';
+
+// Initialize Firebase Admin
+initializeApp();
+const db = getFirestore();
+
+// Setup Gmail transporter
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'willaimshake02@gmail.com', // your gmail
+    pass: 'xcma nnnj jyvl dhzy',      // app password
+  },
+});
+
+// Cloud Function to send transactional email
+export const sendOrderEmail = onRequest(async (req, res) => {
+  try {
+    const { to, subject, html } = req.body;
+
+    if (!to || !subject || !html) {
+      return res.status(400).send('Missing required fields: to, subject, or html');
+    }
+
+    await transporter.sendMail({
+      from: 'willaimshake02@gmail.com', // must match the authenticated Gmail
+      to,
+      subject,
+      html,
+    });
+
+    res.status(200).send('Email sent successfully');
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+>>>>>>> ccc68b1 (almost finished)

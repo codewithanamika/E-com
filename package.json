@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
@@ -24,4 +25,45 @@
     "firebase-functions-test": "^3.1.0"
   },
   "private": true
+=======
+  "name": "ecommerce",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "index.js",
+  "engines": {
+    "node": "18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "firebase-admin": "^11.10.1",
+    "firebase-functions": "^4.4.1",
+    "nodemailer": "^6.9.3",
+    "@tailwindcss/vite": "^4.1.11",
+    "emailjs-com": "^3.2.0",
+    "firebase": "^11.10.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-firebase-hooks": "^5.1.1",
+    "react-hot-toast": "^2.5.2",
+    "react-router-dom": "^7.6.3",
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.1",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "eslint": "^9.30.1",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "vite": "^7.0.3"
+  }
+>>>>>>> ccc68b1 (almost finished)
 }
