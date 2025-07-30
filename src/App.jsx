@@ -7,7 +7,7 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import ProductDetail from './pages/ProductDetail';
 import AdminDashboard from './pages/AdminDashboard';
-import EditProduct from './pages/EditProduct';
+import Editproduct from './pages/Editproduct';
 import SyncFakeStoreToFirestore from './components/SyncFakeStoreToFirestore';
 import Profile from './pages/Profile';
 import OrderDetails from './pages/OrderDetails';
@@ -25,7 +25,7 @@ const App = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/admin" element={<AdminDashboard />} />
-      <Route path="/admin/edit-product/:id" element={<EditProduct />} />
+      <Route path="/admin/edit-product/:id" element={<Editproduct />} />
       <Route path="/sync-products" element={<SyncFakeStoreToFirestore />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/orders/:id" element={<OrderDetails />} />
