@@ -1,40 +1,9 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
-import emailjs from "emailjs-com";
 import { db } from "../firebase/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { auth } from "../firebase/firebase";
-
-const sendOrderConfirmationEmail = (formData, cartItems, total) => {
-  const templateParams = {
-    user_name: formData.name,
-    user_email: formData.email,
-    phone: formData.phone,
-    address: formData.address,
-    payment_method: formData.paymentMethod,
-    order_details: cartItems
-      .map(item => `${item.title} x ${item.qty} - $${(item.price * item.qty).toFixed(2)}`)
-      .join(", "),
-    total_price: total.toFixed(2),
-  };
-
-  emailjs
-    .send(
-      "service_wwmwfe4",
-      "__ejs-test-mail-service__",
-      templateParams,
-      "B2jVtN7za8PILDYv5"
-    )
-    .then(
-      (response) => {
-        console.log("Email sent!", response.status, response.text);
-      },
-      (error) => {
-        console.error("Email sending error:", error);
-      }
-    );
-};
 
 const CartPage = () => {
   const { cartItems, removeFromCart, updateQuantity, clearCart } = useCart();
@@ -56,59 +25,56 @@ const CartPage = () => {
     setShowForm(true);
     setShowQR(false);
   };
-  
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!formData.name || !formData.phone || !formData.address || !formData.email) {
-    alert("Please fill in all customer details.");
-    return;
-  }
-
-  const user = auth.currentUser;
-  if (!user) {
-    alert("You must be logged in to place an order.");
-    return;
-  }
-
-  sendOrderConfirmationEmail(formData, cartItems, total);
-
-  const order = {
-    userId: user.uid,
-    name: formData.name,
-    email: formData.email,
-    phone: formData.phone,
-    address: formData.address,
-    paymentMethod: formData.paymentMethod,
-    items: cartItems,
-    total,
-    status: formData.paymentMethod === "Cash on Delivery" ? "pending" : "awaiting payment",
-    createdAt: serverTimestamp(),
-  };
-
-  console.log("Attempting to save order:", order);
-
-  try {
-    await addDoc(collection(db, "orders"), order);
-    console.log("✅ Order saved to Firestore");
-
-    if (formData.paymentMethod === "Cash on Delivery") {
-      alert("Order placed successfully with Cash on Delivery!");
-      clearCart();
-      navigate("/");
-    } else {
-      setShowQR(true);
+    if (!formData.name || !formData.phone || !formData.address || !formData.email) {
+      alert("Please fill in all customer details.");
+      return;
     }
-  } catch (err) {
-    console.error("❌ Failed to save order to Firestore:", err);
-    alert("Failed to place order. Please try again.");
-  }
-};
+
+    const user = auth.currentUser;
+    if (!user) {
+      alert("You must be logged in to place an order.");
+      return;
+    }
+
+    const order = {
+      userId: user.uid,
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      address: formData.address,
+      paymentMethod: formData.paymentMethod,
+      items: cartItems,
+      total,
+      status: formData.paymentMethod === "Cash on Delivery" ? "pending" : "awaiting payment",
+      createdAt: serverTimestamp(),
+    };
+
+    console.log("Attempting to save order:", order);
+
+    try {
+      await addDoc(collection(db, "orders"), order);
+      console.log("✅ Order saved to Firestore");
+
+      if (formData.paymentMethod === "Cash on Delivery") {
+        alert("Order placed successfully with Cash on Delivery!");
+        clearCart();
+        navigate("/");
+      } else {
+        setShowQR(true);
+      }
+    } catch (err) {
+      console.error("❌ Failed to save order to Firestore:", err);
+      alert("Failed to place order. Please try again.");
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
